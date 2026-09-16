@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Xcode user-specific state (per-developer, not shared)
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+
+# Build products
+build/
+DerivedData/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM
+*.dSYM.zip
+
+# Code signing (never commit these)
+*.mobileprovision
+*.p12
+*.cer
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
