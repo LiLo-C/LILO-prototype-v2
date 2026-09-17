@@ -1,12 +1,13 @@
 <!--
 Sync Impact Report
-- Version change: 1.0.0 → 1.1.0 (materially expanded guidance)
-- Modified principles: II. Simplicity & YAGNI — added self-explanatory-code / minimal-comments rule
+- Version change: 1.1.0 → 1.1.1 (clarification — resolves a previously open TODO, no new/changed principle)
+- Modified principles: none
 - Added sections: none
 - Removed sections: none
 - Templates requiring updates: .specify/templates/spec-template.md (⚠ pending manual review),
   .specify/templates/constitution-template.md (✅ no change needed, source template)
-- Follow-up TODOs: TODO(IOS_DEPLOYMENT_TARGET) — minimum iOS version not yet decided
+- Follow-up TODOs: none — resolved TODO(IOS_DEPLOYMENT_TARGET) → iOS 26, per /speckit-clarify
+  session 2026-09-17 on specs/001-core-prototype
 -->
 
 # LILOv2 Constitution
@@ -65,9 +66,10 @@ unambiguous across lines of work.
 ## Technology & Platform Constraints
 
 - Platform: SwiftUI app built with Xcode (project `v2`, product line `LILOv2`).
-- Minimum iOS deployment target: TODO(IOS_DEPLOYMENT_TARGET) — to be set before first
-  TestFlight submission; until then, keep API usage compatible with the Xcode project's
-  current deployment target setting.
+- Minimum iOS deployment target: iOS 26, chosen deliberately to allow use of newer
+  SpriteKit/Sprite3D and Core Haptics APIs. Experimenting with iOS 27 preview APIs is
+  permitted but MUST NOT be required for a feature's baseline functionality while iOS 27
+  remains unreleased/in preview.
 - No new third-party dependency may be added without a stated reason in the introducing
   feature's `plan.md`.
 
@@ -91,4 +93,4 @@ run's Sync Impact Report. Compliance is checked opportunistically via `/speckit-
 during feature development; there is no separate standing review board at this project's
 current size.
 
-**Version**: 1.1.0 | **Ratified**: 2026-09-17 | **Last Amended**: 2026-09-17
+**Version**: 1.1.1 | **Ratified**: 2026-09-17 | **Last Amended**: 2026-09-17
