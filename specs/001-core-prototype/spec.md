@@ -17,6 +17,19 @@
 - Q: Minimum iOS deployment target buat project ini? → A: iOS 26, chosen to allow use of newer SpriteKit/Sprite3D and Core Haptics APIs. (Experimenting with iOS 27 preview APIs was also raised — tracked separately; not required for this feature's scope.)
 - Q: Battery satu-satunya di test room itu respawn setelah diambil, atau statis (sekali diambil hilang)? → A: Static — it does not respawn once picked up.
 
+### GDD Alignment Pass 2026-09-17
+
+A re-read of this spec against LILO GDD v2 Production Lock (Ch. 4.2, 5.2, 13, 15.3, 20.2, 20.3) found requirements the GDD states for Phase 1 that this spec had missed or contradicted. They are folded in below. Because `tasks.md` was generated before this pass, run `/speckit-analyze` then `/speckit-converge` on this feature to turn the delta into tasks.
+
+- Install-battery gating → GDD 4.2 ("Senter < 10% / kosong → Pasang battery dari slot") and 5.2 ("10–0%: Tombol aksi mulai menampilkan opsi pasang battery"): the install action is only offered once charge is at or below the Critical threshold. Replaces the previous "available at any charge" behavior. See FR-009, FR-011, US3.
+- Interactable highlight → GDD 4.2 ("Feedback interactable: highlight warna pada objek… Tidak pakai ikon prompt melayang"). See FR-018.
+- Placeholder monster figure → GDD 20.2 row 1 requires "1 karakter 3D + 1 monster 3D di scene" for the on-device performance test. A static, behavior-less placeholder is added; no AI. See FR-019, SC-002.
+- Second loose battery → GDD 20.3 DoD requires "Slot cadangan menolak battery kedua saat sudah penuh, dan player paham kenapa", which cannot happen naturally with one battery. The room now holds two static batteries. This intentionally deviates from GDD 20.1's literal "satu battery" to satisfy the DoD. See FR-016, US3.
+- On-screen control layout values → GDD 15.3 requires joystick diameter/dead zone/opacity/position and action-button size/position/touch radius to come from config. See FR-015.
+- Camera framing → GDD 13 (orthographic, north-facing, 45° tilt, fixed zoom). See FR-012.
+- Solid furniture collision → GDD 19.2 Phase 1 target lists "collision". See FR-020.
+- Missing Phase 1 test questions from GDD 20.2 (vignette/spotlight unity, joystick feel, 180s drain feel) added as FR-021, SC-007, SC-008, SC-009. SC-006 is re-timed because install gating makes the full loop take at least one near-full battery cycle.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Move and Explore the Test Room (Priority: P1)
@@ -55,17 +68,18 @@ A player carries a flashlight that drains in real time, and can tell — purely 
 
 ### User Story 3 - Recover a Spare Battery Before Running Out (Priority: P2)
 
-A player finds a loose battery in the room, picks it up, and swaps it into the flashlight to refill it, so the resource-management decision at the center of the game can be tested independently of movement polish or light-state tuning.
+A player finds a loose battery in the room, picks it up, and swaps it into the flashlight once the light is running critically low, so the resource-management decision at the center of the game can be tested independently of movement polish or light-state tuning.
 
 **Why this priority**: This depends on User Story 2 existing (a battery to manage) but is a distinct, separately testable interaction loop — pickup, carry, install — that can be validated once the light system works.
 
-**Independent Test**: Can be fully tested by spawning a player near a single battery item, walking up to it, and using the action button to pick it up and later install it — delivers a complete pickup-and-refill loop.
+**Independent Test**: Can be fully tested by spawning a player near the two loose batteries, picking one up, confirming the second is rejected, letting the light fall to Critical, and installing the spare — delivers a complete pickup-and-refill loop including the slot-full rule.
 
 **Acceptance Scenarios**:
 
-1. **Given** the player is near a battery lying in the room, **When** the player presses the context-sensitive action button, **Then** the battery is picked up into the spare slot and disappears from the world.
-2. **Given** the player is carrying a spare battery, **When** the player presses the action button to install it, **Then** the flashlight's charge is set to exactly 100% and the previously installed battery's remaining charge is discarded.
-3. **Given** the player already has an installed battery and a full spare slot, **When** the player tries to pick up another battery, **Then** the pickup is rejected, the battery remains in the world, and the player is shown clear feedback explaining why it couldn't be picked up.
+1. **Given** the player is near a battery lying in the room, **When** the object is within interaction range, **Then** the battery is visibly highlighted, and **When** the player presses the context-sensitive action button, **Then** the battery is picked up into the spare slot and disappears from the world.
+2. **Given** the player is carrying a spare battery and the installed charge is above 10%, **When** the player looks at the action button away from any other interactable, **Then** no install option is offered.
+3. **Given** the player is carrying a spare battery and the installed charge is at or below 10% (Critical or Compact Darkness), **When** the player presses the action button to install it, **Then** the flashlight's charge is set to exactly 100% and the previously installed battery's remaining charge is discarded.
+4. **Given** the player already has an installed battery and a full spare slot, **When** the player tries to pick up the second loose battery, **Then** the pickup is rejected, the battery remains in the world, and the player is shown clear feedback explaining why it couldn't be picked up.
 
 ---
 
@@ -90,6 +104,9 @@ A player locates the room's single door and opens it using the same action butto
 - What happens when the player tries to pick up a battery while both the installed and spare slots are full? The pickup MUST be rejected with feedback, per User Story 3, Scenario 3 — the item is never silently lost.
 - What happens when the player is near the door while carrying a spare battery? The action button MUST reflect whichever interactable is nearest/relevant, not conflate the two prompts.
 - What happens if the player sprints directly into the room boundary? The camera MUST stop panning (per US1) while the character's own collision with the wall is handled separately — the character does not pass through geometry.
+- What happens if the player sprints into the placeholder desk or other solid furniture? The character MUST stop against it (FR-020) rather than walking through it, while the desk still occludes the character when the character is behind it (FR-014).
+- What happens if the installed charge is refilled by an install while the light is in Compact Darkness? The light MUST return to Normal immediately, and the install option MUST disappear because charge is now above 10%.
+- What happens if the player walks into the placeholder monster figure? It is solid scenery for this phase only — no catch, no damage, no behavior.
 - What happens if the device is rotated out of landscape? Out of scope for this feature — the app is landscape-only; no portrait behavior is defined.
 
 ## Requirements *(mandatory)*
@@ -104,15 +121,19 @@ A player locates the room's single door and opens it using the same action butto
 - **FR-006**: At 0% charge, system MUST keep the player able to move and act normally — reaching Compact Darkness MUST NOT end the session or block input.
 - **FR-007**: System MUST let the player pick up a battery item in the room through a single context-sensitive action button that appears when an interactable object is within range.
 - **FR-008**: System MUST cap the player's carried batteries at one installed plus one spare; a pickup attempted while both are full MUST be rejected, MUST leave the item in the world, and MUST show the player feedback explaining why.
-- **FR-009**: System MUST let the player install the spare battery via the action button, which MUST always set the flashlight's charge to exactly 100% and discard the remaining charge of whatever was previously installed.
+- **FR-009**: System MUST let the player install the spare battery via the action button only while the installed charge is at or below the Critical threshold (10%, i.e. Critical or Compact Darkness, per GDD 4.2/5.2). Installing MUST always set the flashlight's charge to exactly 100% and discard the remaining charge of whatever was previously installed.
 - **FR-010**: System MUST let the player open the room's single door via the same context-sensitive action button when standing near it.
-- **FR-011**: System MUST update the action button's label/icon to match the nearest interactable object (battery, door) and MUST show no prompt when nothing is in range.
-- **FR-012**: System MUST keep the camera centered on the player with smooth, non-instant follow motion, and MUST stop the camera from panning past the test room's boundaries.
+- **FR-011**: System MUST update the action button's label/icon to match the currently available interaction (pick up battery, install battery, open door) and MUST show no prompt when no interaction is available. The install option counts as available only under FR-009's charge condition.
+- **FR-012**: System MUST keep the camera centered on the player with smooth, non-instant follow motion, and MUST stop the camera from panning past the test room's boundaries. The view MUST use a fixed-zoom, orthographic (no perspective distortion) north-facing framing tilted roughly 45°, per GDD Ch. 13; no dynamic zoom exists.
 - **FR-013**: System MUST keep the player character's apparent position, scale, and grounding on the environment visually consistent while the player moves and the camera follows (no drifting, scaling, or floating artifacts).
 - **FR-014**: System MUST let 2D environment elements (e.g., a piece of furniture) visually occlude the player character when that element is positioned in front of the character from the camera's viewpoint.
-- **FR-015**: Every tunable numeric value used by this feature's systems (including but not limited to walk speed, sprint multiplier, battery duration, and light-state thresholds — see `contracts/game-config.md` for the authoritative full list) MUST be defined in exactly one configuration source, with no such value hardcoded elsewhere.
-- **FR-016**: System MUST NOT respawn the test room's battery once it has been picked up — it remains removed from the world for the rest of the session.
+- **FR-015**: Every tunable numeric value used by this feature's systems (including but not limited to walk speed, sprint multiplier, battery duration, light-state thresholds, and the on-screen control layout values from GDD 15.3 — joystick diameter, dead zone, opacity and position; action button size, position and touch radius — see `contracts/game-config.md` for the authoritative full list) MUST be defined in exactly one configuration source, with no such value hardcoded elsewhere.
+- **FR-016**: The test room MUST contain exactly two loose batteries at fixed positions. System MUST NOT respawn either battery once it has been picked up — each remains removed from the world for the rest of the session.
 - **FR-017**: System MUST display the installed flashlight's current charge as a persistent bar-style indicator in the HUD, and MUST show whether the spare battery slot is empty or occupied, so the player has an at-a-glance view of both without any menu (per GDD Ch. 15.1's HUD spec; decided in Clarifications above).
+- **FR-018**: System MUST visually highlight (color highlight on the object itself) any interactable object — battery, door — while it is within interaction range, and MUST NOT use floating prompt icons over objects (GDD 4.2).
+- **FR-019**: The test room MUST contain one static placeholder monster figure rendered through the same 3D-over-2D pipeline as the player character. It has no AI, no movement, and no gameplay effect; it exists only so performance is measured with two 3D characters on screen (GDD 20.2).
+- **FR-020**: System MUST prevent the player character from passing through solid furniture placed in the room (at minimum the placeholder desk), not only the room's outer walls.
+- **FR-021**: As the light radius shrinks through Critical into Compact Darkness, the 3D characters (player and placeholder monster) MUST darken consistently with the 2D environment. No 3D character may remain brightly lit inside an otherwise dark screen.
 
 ### Key Entities
 
