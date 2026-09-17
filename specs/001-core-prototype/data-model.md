@@ -12,7 +12,8 @@ phase, see [plan.md](./plan.md#technical-context)).
 | `player` | `PlayerCharacter` | single instance, this phase has one player |
 | `installedBattery` | `Battery?` | the battery currently powering the flashlight; present from room start (spec Assumptions) |
 | `spareBattery` | `Battery?` | `nil` until the room's loose battery is picked up |
-| `worldBattery` | `Battery?` | the one loose battery lying in the room; becomes `nil` on pickup and never repopulates (FR-016) |
+| `worldBatteries` | `[Battery]` | the two loose batteries lying in the room; each is removed on pickup and never repopulates (FR-016). *(Alignment pass: was a single `worldBattery: Battery?`.)* |
+| `placeholderMonster` | `PlaceholderMonsterFigure` | static, behavior-less 3D figure for perf/lighting checks (FR-019, FR-021) |
 | `door` | `Door` | single instance |
 | `room` | `TestRoom` | static bounds/spawn data, effectively read-only after load |
 
@@ -39,13 +40,14 @@ No persisted identity needed — exactly one player exists this phase.
 .world --(picked up, FR-007/FR-008)--> .spare --(installed, FR-009)--> .installed
 ```
 
-- `.world → .spare` is only legal once (the room has exactly one `worldBattery`, and FR-016
-  forbids it ever repopulating). There is no transition back into `.world`.
-- `.spare → .installed` always sets `charge = 180` (full refill) on the *new* installed battery
+- `.world → .spare` is legal once per loose battery (the room has exactly two, and FR-016
+  forbids them ever repopulating). There is no transition back into `.world`.
+- `.spare → .installed` is only legal while `installedBattery.charge ≤ lightStateCriticalStart ×
+  batteryDuration` (≤18s / ≤10%, FR-009 — GDD 4.2/5.2). When legal, it always sets `charge = 180` (full refill) on the *new* installed battery
   and discards whatever was previously installed (FR-009) — the old installed battery is not
   moved to any other state, it is simply removed from the model.
 - Pickup (`.world → .spare`) is only legal when `spareBattery == nil`; otherwise the attempt is
-  rejected per FR-008 and `worldBattery` is left unchanged.
+  rejected per FR-008 and that battery stays in `worldBatteries` unchanged.
 
 ## LightState (derived, not stored)
 
@@ -69,6 +71,12 @@ Read by `BatteryIndicatorView` (FR-017), computed each frame, never stored:
 | `batteryChargeFraction` | `installedBattery.charge / GameConfig.batteryDuration` | drives the bar's fill amount, `0.0...1.0` |
 | `spareSlotOccupied` | `spareBattery != nil` | drives the spare-slot indicator's empty/full display |
 
+## PlaceholderMonsterFigure
+
+| Field | Type | Notes |
+|---|---|---|
+| `position` | 2D world position | fixed; solid scenery only, no AI, no catch (FR-019) |
+
 ## Door
 
 | Field | Type | Notes |
@@ -82,14 +90,17 @@ Read by `BatteryIndicatorView` (FR-017), computed each frame, never stored:
 |---|---|---|
 | `bounds` | rectangle in world space | drives camera clamping (FR-012) and player/character collision with walls |
 | `playerSpawn` | 2D position | player starting position |
-| `batterySpawn` | 2D position | fixed spawn point for `worldBattery` |
+| `batterySpawns` | `[2D position]` (2 entries) | fixed spawn points for `worldBatteries` |
+| `deskFrame` | rectangle | placeholder desk: occludes the player (FR-014) and blocks movement (FR-020) |
+| `monsterFigurePosition` | 2D position | placement for the placeholder monster figure (FR-019) |
 | `doorPosition` | 2D position | placement for `Door` |
 
 Static for this phase — one hardcoded room, no level-loading system (Simplicity/YAGNI).
 
 ## Validation rules summary
 
-- A pickup of `worldBattery` MUST be rejected whenever `spareBattery != nil` (FR-008).
+- A pickup of any `worldBatteries` entry MUST be rejected whenever `spareBattery != nil` (FR-008).
+- An install MUST be rejected (and not offered) while installed charge > 10% (FR-009).
 - `installedBattery` MUST never be `nil` after room start (flashlight is always on per FR-004's
   "regardless of player action").
-- `worldBattery` MUST NOT be reassigned once it transitions out of `.world` (FR-016).
+- A battery removed from `worldBatteries` MUST NOT be re-added (FR-016).

@@ -6,7 +6,18 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		2D767E4B3F2C31153FE47C67 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7575B3A3305AF51000A07691 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7575B3AA305AF51000A07691;
+			remoteInfo = v2;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		1106FCC32D519862A0B6405E /* v2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = v2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7575B3AB305AF51000A07691 /* v2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = v2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -16,10 +27,20 @@
 			path = v2;
 			sourceTree = "<group>";
 		};
+		EE85F10E47DFFFABF60D9067 /* v2Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = v2Tests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		7575B3A8305AF51000A07691 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		D4959463617EFDFAB9D3B534 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
@@ -31,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				7575B3AD305AF51000A07691 /* v2 */,
+				EE85F10E47DFFFABF60D9067 /* v2Tests */,
 				7575B3AC305AF51000A07691 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				7575B3AB305AF51000A07691 /* v2.app */,
+				1106FCC32D519862A0B6405E /* v2Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,6 +87,27 @@
 			productReference = 7575B3AB305AF51000A07691 /* v2.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D0B79A69DD8525A7A17EF132 /* v2Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B9770F7AB6B7D9C8890875D /* Build configuration list for PBXNativeTarget "v2Tests" */;
+			buildPhases = (
+				3E7E36FF30AF760D0A554EFF /* Sources */,
+				D4959463617EFDFAB9D3B534 /* Frameworks */,
+				EB867CB6AFCE4105B2CFB421 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				75C584D87B5AC3ED42147132 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				EE85F10E47DFFFABF60D9067 /* v2Tests */,
+			);
+			name = v2Tests;
+			productName = v2Tests;
+			productReference = 1106FCC32D519862A0B6405E /* v2Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -76,6 +120,10 @@
 				TargetAttributes = {
 					7575B3AA305AF51000A07691 = {
 						CreatedOnToolsVersion = 27.0;
+					};
+					D0B79A69DD8525A7A17EF132 = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 7575B3AA305AF51000A07691;
 					};
 				};
 			};
@@ -94,6 +142,7 @@
 			projectRoot = "";
 			targets = (
 				7575B3AA305AF51000A07691 /* v2 */,
+				D0B79A69DD8525A7A17EF132 /* v2Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -104,15 +153,33 @@
 			files = (
 			);
 		};
+		EB867CB6AFCE4105B2CFB421 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3E7E36FF30AF760D0A554EFF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 		7575B3A7305AF51000A07691 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
 			);
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		75C584D87B5AC3ED42147132 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7575B3AA305AF51000A07691 /* v2 */;
+			targetProxy = 2D767E4B3F2C31153FE47C67 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		7575B3B4305AF51100A07691 /* Debug configuration for PBXProject "v2" */ = {
@@ -304,6 +371,46 @@
 			};
 			name = Release;
 		};
+		EAD26C6632218CA0DE12A709 /* Release configuration for PBXNativeTarget "v2Tests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				TEST_TARGET_NAME = v2;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4YB3365JZ9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LILO.v2Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/v2.app/v2";
+			};
+			name = Release;
+		};
+		FABEADBEDD458E294AE21FB5 /* Debug configuration for PBXNativeTarget "v2Tests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				TEST_TARGET_NAME = v2;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4YB3365JZ9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LILO.v2Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/v2.app/v2";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -320,6 +427,14 @@
 			buildConfigurations = (
 				7575B3B7305AF51100A07691 /* Debug configuration for PBXNativeTarget "v2" */,
 				7575B3B8305AF51100A07691 /* Release configuration for PBXNativeTarget "v2" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		8B9770F7AB6B7D9C8890875D /* Build configuration list for PBXNativeTarget "v2Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FABEADBEDD458E294AE21FB5 /* Debug configuration for PBXNativeTarget "v2Tests" */,
+				EAD26C6632218CA0DE12A709 /* Release configuration for PBXNativeTarget "v2Tests" */,
 			);
 			defaultConfigurationName = Release;
 		};
