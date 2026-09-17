@@ -21,7 +21,7 @@ values. Owned by `LightingController`'s internal easing state (see below), not `
 | `.normal` | `GameConfig.flashlightNormalRadius` | full radius, FR-004 |
 | `.flickering` | `GameConfig.flashlightNormalRadius`, momentarily dipped by a flicker event | steady between events, FR-006 |
 | `.critical` | interpolated between `flashlightNormalRadius` and `flashlightCriticalMinRadius` by remaining fraction of the Critical range | continuous narrowing, FR-005 |
-| `.compactDarkness` | `flashlightNormalRadius * GameConfig.compactDarknessRadiusFraction` | reuses 001's existing fraction unchanged |
+| `.compactDarkness` | `GameConfig.flashlightCriticalMinRadius` | Must equal `flashlightNormalRadius * compactDarknessRadiusFraction`, preserving 001's 10% target and making the Critical → Compact transition continuous. |
 
 ## LightingController Easing State (owned by `LightingController`, not `GameState`)
 
@@ -74,7 +74,7 @@ types, defaults and sourcing — reproduced in summary here:
   `flickerIntervalMin`, `flickerIntervalMax`, `flickerEventDuration`, `flickerDipFraction`,
   `readabilityFillIntensity`
 - Camera: `cameraTiltDegrees` (already existed as `TBD` in 001; value now supplied),
-  `cameraOrthographicScale` (already existed as `TBD`; value now supplied), `cameraDistance`
+  `cameraOrthographicScale` (already existed as `TBD`; still tuned on-device), `cameraDistance`
 - Shadows: `shadowsEnabled`, `shadowMapSize`, `shadowSampleCount`
 - Highlight: `highlightColor`, `highlightOutOfRangeIntensity`, `highlightInRangeIntensity`
 - World: `wallHeight`, `maxFrameDelta`
@@ -86,6 +86,9 @@ types, defaults and sourcing — reproduced in summary here:
 
 - `currentRadius` (Lighting easing state) MUST only move toward its target — it is never set
   directly except at scene setup (spec FR-005: "MUST NOT jump between sizes").
+- `flashlightCriticalMinRadius` MUST equal `flashlightNormalRadius *
+  compactDarknessRadiusFraction`; this shared boundary prevents a radius jump when the derived
+  `LightState` changes from Critical to Compact Darkness.
 - A flicker event (`flickerPhase == .dipping`) MUST only begin while `GameState.lightState ==
   .flickering`; if charge crosses out of Flickering mid-dip, the dip MUST end immediately rather
   than finish playing (spec Edge Case: the easing added here must not make the light show a

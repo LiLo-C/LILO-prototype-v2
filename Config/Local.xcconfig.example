@@ -1,0 +1,5 @@
+// Copy this file to Config/Local.xcconfig and set values for your Apple team.
+// Config/Local.xcconfig is ignored by git and should never be committed.
+
+DEVELOPMENT_TEAM = REPLACE_WITH_YOUR_TEAM_ID
+PRODUCT_BUNDLE_IDENTIFIER_PREFIX = com.yourcompany.yourname

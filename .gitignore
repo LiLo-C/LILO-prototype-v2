@@ -7,9 +7,16 @@ xcuserdata/
 *.xcscmblueprint
 *.xccheckout
 
+# Per-engineer XcodeGen signing and bundle-id overrides
+Config/Local.xcconfig
+
+# Generated Xcode project (source of truth is project.yml)
+/v2.xcodeproj/
+
 # Build products
 build/
 DerivedData/
+.build/
 *.moved-aside
 *.hmap
 *.ipa

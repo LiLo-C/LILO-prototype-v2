@@ -9,7 +9,7 @@ none hardcoded at the call site.
 | Key | Type | Default | Source / Notes | Reads |
 |---|---|---|---|---|
 | `flashlightNormalRadius` | `Double` (world units) | `TBD` | Normal-state lit radius; small enough that darkness is visible on all four landscape screen edges (FR-004). Tuned on-device — same "tune by feel, key must still exist" rule 001 used for its own `TBD`s. | `LightingController` |
-| `flashlightCriticalMinRadius` | `Double` (world units) | `TBD` | Lit radius at the bottom of Critical / Compact Darkness's base before the `compactDarknessRadiusFraction` multiply (FR-005). Must be `< flashlightNormalRadius`. | `LightingController` |
+| `flashlightCriticalMinRadius` | `Double` (world units) | `TBD` | Lit radius at the bottom of Critical and the final Compact Darkness target (FR-005). Must be `< flashlightNormalRadius` and equal `flashlightNormalRadius * compactDarknessRadiusFraction` so the Critical → Compact transition has no target discontinuity. | `LightingController` |
 | `lightRadiusEaseRate` | `Double` (1/s, exponential ease rate) | `TBD` | How fast the displayed radius chases its target (FR-005). Ported technique from the LILO spike's `radiusEaseRate` (spike default `5`); numeric value re-tuned on-device for this room's scale. | `LightingController` |
 | `flickerIntervalMin` | `Double` (seconds) | `TBD` | Shortest gap between flicker dip events while in Flickering (FR-006). | `LightingController` |
 | `flickerIntervalMax` | `Double` (seconds) | `TBD` | Longest gap between flicker dip events (FR-006). Must be `≥ flickerIntervalMin`. | `LightingController` |
@@ -46,3 +46,5 @@ none hardcoded at the call site.
 - Same rules as 001's contract: one source file, `TBD` keys present with a placeholder value (not
   omitted) so every system is wired up before on-device tuning happens, later specs never create
   a second config source.
+- The configured radius boundary MUST be internally consistent:
+  `flashlightCriticalMinRadius == flashlightNormalRadius * compactDarknessRadiusFraction`.

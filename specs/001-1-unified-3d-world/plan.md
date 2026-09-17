@@ -35,18 +35,18 @@ is dropped from the playable-world path; no other new dependency.
 
 **Testing**: XCTest, extended from 001's `v2Tests` target. 001's existing logic tests
 (`GameConfigTests`, `BatteryControllerTests`, `LightStateTests`) MUST keep passing unmodified
-(spec SC-009) since they test `GameState`/`GameConfig`/`BatteryController`, none of which change
+(spec SC-1.1-009) since they test `GameState`/`GameConfig`/`BatteryController`, none of which change
 shape. New tests cover the added pure-logic pieces: light-radius easing, flicker event timing,
 and desk collision/sliding math — all kept engine-independent so they don't need a rendering
 host, per constitution Principle IV.
 
 **Target Platform**: iOS 26+, iPhone only, landscape orientation only — unchanged from 001.
-Performance validation (SC-002) requires a physical iPhone 17, not the Simulator.
+Performance validation (SC-1.1-002) requires a physical iPhone 17, not the Simulator.
 
 **Project Type**: Mobile app (single Xcode target `v2`) — unchanged from 001.
 
 **Performance Goals**: Sustain ≥60 fps on iPhone 17 with shadows enabled and both 3D characters
-on screen (SC-002) — a materially harder bar than 001's, since real shadow mapping is more
+on screen (SC-1.1-002) — a materially harder bar than 001's, since real shadow mapping is more
 expensive than 001's flat compositing. FR-022's shadow on/off and quality switches exist
 specifically as the fallback if this isn't met.
 
@@ -67,9 +67,9 @@ rewrite of the same scope.
 | Principle | Check | Status |
 |---|---|---|
 | I. Spec-Driven Development | This plan derives from the approved, clarified `spec.md` (001-1-unified-3d-world); no implementation starts before this plan and its tasks exist. | PASS |
-| II. Simplicity & YAGNI | Scope is held to what spec 001-1's FRs require — one light, real shadows, one highlight mechanism, floating joystick, desk sliding collision. No multi-light rigs, no lightmap baking, no physics engine are introduced ahead of need (plain 2D-plane math reused from the LILO spike, not SceneKit physics). | PASS |
+| II. Simplicity & YAGNI | Scope is held to what spec 001-1's FRs require — one flashlight plus one configured readability fill, real shadows, one highlight mechanism, floating joystick, desk sliding collision. No multi-light rigs, no lightmap baking, no physics engine are introduced ahead of need (plain 2D-plane math reused from the LILO spike, not SceneKit physics). | PASS |
 | III. SwiftUI Architecture Consistency | `GameState` stays the single `@Observable` source of truth; the new `WorldSceneController` (SceneKit equivalent of `TestRoomScene`) reads/writes it the same way `TestRoomScene` did. HUD stays SwiftUI, reading `GameState` — no new state pattern introduced. | PASS |
-| IV. Test-Before-Done | 001's existing logic tests are preserved unmodified (SC-009); new logic (radius easing, flicker timing, collision/sliding) is designed as pure math so it stays unit-testable without a rendering host. | PASS |
+| IV. Test-Before-Done | 001's existing logic tests are preserved unmodified (SC-1.1-009); new logic (radius easing, flicker timing, collision/sliding) is designed as pure math so it stays unit-testable without a rendering host. | PASS |
 | V. Versioning & Change Tracking | No persisted data model; N/A. | N/A |
 | Tech constraint: single `GameConfig` source | All new tunables (FR-021's list) are added to the existing `GameConfig.swift` / its contract doc — no second config source. | PASS |
 | Tech constraint: no unjustified dependency | SceneKit is already a used, first-party framework (001 already depends on it for `SK3DNode`'s underlying `SCNScene`); no new dependency, one is actually dropped in scope (2D compositing complexity). | PASS |
@@ -125,9 +125,9 @@ v2/
 └── Assets.xcassets/                 # unchanged
 
 v2Tests/
-├── GameConfigTests.swift            # UNCHANGED (SC-009)
-├── BatteryControllerTests.swift     # UNCHANGED (SC-009)
-├── LightStateTests.swift            # UNCHANGED (SC-009)
+├── GameConfigTests.swift            # UNCHANGED (SC-1.1-009)
+├── BatteryControllerTests.swift     # UNCHANGED (SC-1.1-009)
+├── LightStateTests.swift            # UNCHANGED (SC-1.1-009)
 ├── LightRadiusEasingTests.swift     # NEW — FR-005, FR-006
 ├── FlickerEventTests.swift          # NEW — FR-006
 └── CollisionResolverTests.swift     # NEW — FR-014

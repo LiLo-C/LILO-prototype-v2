@@ -164,7 +164,8 @@ decisions needed to move from spec to design.
 ## 10. Floating joystick — SwiftUI-level, renderer-independent
 
 - **Decision**: `JoystickView` becomes state-driven on a "control zone" (`GeometryReader`-sized
-  rect on the left, `GameConfig.joystickControlZoneWidth`/`joystickControlZoneHeight` fraction of
+  rect on the left, `GameConfig.joystickControlZoneWidthFraction`/
+  `GameConfig.joystickControlZoneHeightFraction` fraction of
   screen or point size). It renders nothing until a `DragGesture(minimumDistance: 0)` starts
   inside that zone, at which point the joystick's base is drawn centered at the touch's start
   location; it clears back to nothing on `.onEnded`. Reuses the same deflection math 001 already

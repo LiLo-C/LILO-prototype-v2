@@ -14,7 +14,7 @@
 - [[001-core-prototype/spec|001 — Core Movement & Light System Prototype]] — Fase 1 (GDD Ch. 20)
   - [[001-core-prototype/plan|Plan]] · [[001-core-prototype/research|Research]] · [[001-core-prototype/data-model|Data Model]] · [[001-core-prototype/quickstart|Quickstart]] · [[001-core-prototype/tasks|Tasks]]
 - [[001-1-unified-3d-world/spec|001-1 — Unified 3D World & Feel Pass]] — Fase 1 amendment: whole world in one lit 3D scene (amends GDD Ch. 11.1, 12)
-  - [[001-1-unified-3d-world/plan|Plan]] · [[001-1-unified-3d-world/research|Research]] · [[001-1-unified-3d-world/data-model|Data Model]] · [[001-1-unified-3d-world/quickstart|Quickstart]]
+  - [[001-1-unified-3d-world/plan|Plan]] · [[001-1-unified-3d-world/research|Research]] · [[001-1-unified-3d-world/data-model|Data Model]] · [[001-1-unified-3d-world/quickstart|Quickstart]] · [[001-1-unified-3d-world/tasks|Tasks]]
 - [[002-monster-ai-noise/spec|002 — Monster AI State Machine & Noise Detection]] — Fase 2 (GDD Ch. 6, 7)
 - [[003-hiding-under-desk/spec|003 — Hiding Under Desks]] — Fase 2 (GDD Ch. 4.3) · cut #1
 - [[004-floor-level-framework/spec|004 — Floor & Level Framework]] — Fase 3 prerequisite (GDD Ch. 2.4, 3, 16)
