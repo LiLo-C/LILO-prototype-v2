@@ -36,10 +36,11 @@ This spec changes the render approach and sets the look-and-feel bar Phase 1 mus
 | FR-013 (character grounding across two renderers) | **Superseded** by FR-009 below. |
 | FR-014 (2D element occludes 3D character) | **Superseded** by FR-010 below. |
 | FR-021 (3D characters darken with the 2D environment) | **Superseded** by FR-008 below. |
-| SC-002 (60 fps, 2 characters) | **Superseded** by SC-002 below (adds shadows). |
+| SC-002 (60 fps, 2 characters) | **Superseded** by SC-1.1-002 below (adds shadows). |
 | FR-018 (color highlight on interactable objects) | **Extended** by FR-013 below: the highlight is drawn around the object and also marks it outside the lit area. |
-| SC-001, SC-003–SC-008 | **Kept as-is.** |
-| SC-009 (no brightly lit character in a dark screen) | **Kept.** Also covered by SC-005 below. |
+| SC-001, SC-003–SC-008 | **Kept as-is in 001.** They retain their 001 identifiers and remain authoritative for the original gameplay checks. |
+| SC-009 (no brightly lit character in a dark screen) | **Kept in 001.** The related 001-1 visual check is SC-1.1-005 below. |
+| New 001-1 outcomes | Use the `SC-1.1-###` namespace below to avoid colliding with 001's criteria. |
 | Assumption "environment in 2D, character in 3D" | **Replaced** by the render decision in Assumptions below. |
 
 ## Clarifications
@@ -210,15 +211,15 @@ A player moves the character through a room with solid walls and a solid desk. T
 
 ### Measurable Outcomes
 
-- **SC-001**: In screenshots taken in each of the four light states on an iPhone 17 in landscape, darkness is visible along all four screen edges in every screenshot.
-- **SC-002**: The game sustains at least 60 frames per second on a physical iPhone 17 while the player moves continuously through the test room. Shadows are on, and both the player character and the placeholder monster figure are on screen. This supersedes 001 SC-002.
-- **SC-003**: In a side-by-side viewing of the 001 build and the 001-1 build, at least 2 of 3 people outside the development team pick the 001-1 build as "looks and feels more like a horror game", without being told which is newer.
-- **SC-004**: In an observation test with at least 2 people outside the development team, each person describes the Flickering state as the light "flickering" or "failing", not as "shimmering", "glitching" or "noise".
-- **SC-005**: In Compact Darkness, no observer reports a character or object that looks brighter than the floor around it (extends 001 SC-009).
-- **SC-006**: With the flashlight fixed at 0% charge, a person outside the development team can walk from the spawn point to the door within 60 seconds without instructions.
-- **SC-007**: A player walking diagonally into any wall or into the desk keeps moving along it in 100% of attempts across 10 tries, never stopping dead or passing through.
-- **SC-008**: Every new tunable listed in FR-021 can be changed by editing only the single configuration source.
-- **SC-009**: All automated checks that passed on the 001 build still pass after the change.
+- **SC-1.1-001**: In screenshots taken in each of the four light states on an iPhone 17 in landscape, darkness is visible along all four screen edges in every screenshot.
+- **SC-1.1-002**: The game sustains at least 60 frames per second on a physical iPhone 17 while the player moves continuously through the test room. Shadows are on, and both the player character and the placeholder monster figure are on screen. This supersedes 001 SC-002.
+- **SC-1.1-003**: In a side-by-side viewing of the 001 build and the 001-1 build, at least 2 of 3 people outside the development team pick the 001-1 build as "looks and feels more like a horror game", without being told which is newer.
+- **SC-1.1-004**: In an observation test with at least 2 people outside the development team, each person describes the Flickering state as the light "flickering" or "failing", not as "shimmering", "glitching" or "noise".
+- **SC-1.1-005**: In Compact Darkness, no observer reports a character or object that looks brighter than the floor around it (extends 001 SC-009).
+- **SC-1.1-006**: With the flashlight fixed at 0% charge, a person outside the development team can walk from the spawn point to the door within 60 seconds without instructions.
+- **SC-1.1-007**: A player walking diagonally into any wall or into the desk keeps moving along it in 100% of attempts across 10 tries, never stopping dead or passing through.
+- **SC-1.1-008**: Every new tunable listed in FR-021 can be changed by editing only the single configuration source.
+- **SC-1.1-009**: All automated checks that passed on the 001 build still pass after the change.
 
 ## Assumptions
 

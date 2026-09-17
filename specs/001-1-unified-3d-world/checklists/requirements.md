@@ -32,5 +32,5 @@
 ## Notes
 
 - The whole purpose of this spec is a render-architecture change, so the decision is named once in Assumptions. That is the same place 001 named the hybrid approach. FRs and SCs describe only observable outcomes: one light, real shadows, soft edge, darkness on screen edges, and so on.
-- Clarify session 2026-09-17 resolved all three markers: camera locked on player (FR-012), highlight around interactable objects instead of self-glow (FR-013), floating joystick (FR-019). All items pass; ready for `/speckit-plan`.
+- Clarify session 2026-09-17 resolved all three markers: camera locked on player (FR-012), highlight around interactable objects instead of self-glow (FR-013), floating joystick (FR-019). The 001-1 Success Criteria use the `SC-1.1-###` namespace so they cannot collide with inherited 001 criteria. All items pass; ready for `/speckit-tasks` after the alignment pass.
 - Other specs affected by this change are listed under "Impact on Other Specs". They are not edited by this spec.

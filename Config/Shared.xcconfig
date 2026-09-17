@@ -1,0 +1,7 @@
+CODE_SIGN_STYLE = Automatic
+DEVELOPMENT_TEAM =
+PRODUCT_BUNDLE_IDENTIFIER_PREFIX = com.example
+
+// Shared build configuration. Per-engineer values belong in Local.xcconfig.
+// The optional include comes last so local values override these defaults.
+#include? "Local.xcconfig"
