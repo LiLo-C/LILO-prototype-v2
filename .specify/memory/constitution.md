@@ -1,50 +1,96 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: 1.1.0 → 1.1.1 (clarification — resolves a previously open TODO, no new/changed principle)
+- Modified principles: none
+- Added sections: none
+- Removed sections: none
+- Templates requiring updates: .specify/templates/spec-template.md (⚠ pending manual review),
+  .specify/templates/constitution-template.md (✅ no change needed, source template)
+- Follow-up TODOs: none — resolved TODO(IOS_DEPLOYMENT_TARGET) → iOS 26, per /speckit-clarify
+  session 2026-09-17 on specs/001-core-prototype
+-->
+
+# LILOv2 Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Spec-Driven Development (NON-NEGOTIABLE)
+Every feature MUST pass through the Spec Kit pipeline before code is written: a spec
+(`spec.md` — requirements, no implementation detail) MUST be approved, then a plan
+(`plan.md` — technical approach), then tasks (`tasks.md` — ordered, executable steps).
+Implementation MUST NOT begin from an idea alone. Ambiguities in a spec MUST be resolved
+(`/speckit-clarify`) before planning starts, not discovered mid-implementation.
+Rationale: this project explicitly adopts spec-driven development so that intent is
+captured and reviewable before code exists, reducing rework and drift between what was
+asked for and what was built. Trivial fixes/chores that don't change product behavior are
+exempt.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Simplicity & YAGNI
+Implement only what the current spec requires. MUST NOT introduce abstractions, layers, or
+configuration for hypothetical future needs. Prefer the smallest change that satisfies the
+spec's acceptance criteria; three similar call sites are better than a premature shared
+abstraction. Code MUST be self-explanatory through clear naming and structure; comments are
+NOT added by default. A comment MAY be added only to capture a non-obvious "why" — a hidden
+constraint, a workaround, an invariant that isn't visible from the code itself — never to
+restate what the code already says.
+Rationale: this is an early-stage SwiftUI app — speculative architecture costs more than it
+saves before real requirements exist. Self-explanatory code stays correct as it's refactored;
+comments describing "what" silently rot and mislead once the code around them changes.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. SwiftUI Architecture Consistency
+Views MUST stay declarative and free of business logic beyond simple presentation mapping;
+state and side effects live in dedicated observable model types (Swift's `@Observable` /
+`@State` data-flow model). A feature's `plan.md` MUST name where its state lives before
+implementation starts. Mixing ad-hoc state patterns (e.g., singletons, notification-based
+state) within the same feature MUST be justified in `plan.md` or avoided.
+Rationale: keeps the codebase navigable as features accumulate and keeps SwiftUI previews
+and tests reliable.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Test-Before-Done
+Each feature MUST have tests covering its spec's acceptance criteria (unit tests for logic,
+UI tests only where interaction behavior is the point) before the feature is marked done in
+`tasks.md`. Strict red-green-refactor TDD is encouraged but not mandatory — tests MUST exist
+and pass by completion, not necessarily be written first.
+Rationale: balances the rigor of test coverage against solo/small-team velocity at this
+project stage; can be tightened to strict TDD via amendment if the team grows.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Versioning & Change Tracking
+App version numbers follow semantic versioning and MUST align with TestFlight build
+numbers. Any change to a persisted data model or schema MUST document a migration path in
+that feature's `plan.md`. Breaking changes to shared internal contracts MUST be called out
+explicitly in the relevant spec.
+Rationale: this repository is a working/experimental line separate from the build actually
+submitted to TestFlight, so version and migration intent must stay traceable and
+unambiguous across lines of work.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Technology & Platform Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Platform: SwiftUI app built with Xcode (project `v2`, product line `LILOv2`).
+- Minimum iOS deployment target: iOS 26, chosen deliberately to allow use of newer
+  SpriteKit/Sprite3D and Core Haptics APIs. Experimenting with iOS 27 preview APIs is
+  permitted but MUST NOT be required for a feature's baseline functionality while iOS 27
+  remains unreleased/in preview.
+- No new third-party dependency may be added without a stated reason in the introducing
+  feature's `plan.md`.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Command order: `/speckit-constitution` → `/speckit-specify` → `/speckit-clarify`
+  (as needed) → `/speckit-plan` → `/speckit-tasks` → `/speckit-analyze` (as needed) →
+  `/speckit-implement`.
+- One feature branch per spec, named `feat/<feature-slug>`, matching the spec's feature
+  directory under `specs/`.
+- `/speckit-analyze` SHOULD be run before `/speckit-implement` on any feature whose spec or
+  plan changed after tasks were generated, to catch drift between artifacts.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes ad-hoc conventions for any conflict between them. Amendments
+are made exclusively via `/speckit-constitution`, which MUST update the version per semantic
+versioning (MAJOR: incompatible principle removal/redefinition; MINOR: new principle or
+materially expanded guidance; PATCH: clarification/wording) and record the change in that
+run's Sync Impact Report. Compliance is checked opportunistically via `/speckit-analyze`
+during feature development; there is no separate standing review board at this project's
+current size.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.1.1 | **Ratified**: 2026-09-17 | **Last Amended**: 2026-09-17
