@@ -4,7 +4,7 @@
 
 **Created**: 2026-09-17
 
-**Status**: Draft
+**Status**: Draft — rendering requirements amended by [[001-1-unified-3d-world/spec|001-1]] (FR-013, FR-014, FR-021, SC-002 superseded)
 
 **Input**: User description: "Fase 1 — Core Prototype untuk LILO (Lights In, Lights Out), horror survival iOS game. Referensi lengkap: LILO GDD v2 Production Lock. Scope (sesuai GDD Bab 20): satu ruangan kotak sebagai prototype level, tanpa monster, tanpa art asli (placeholder kotak/kapsul), tanpa audio. Player bisa bergerak + sprint via joystick, senter yang menguras battery real-time selama 180 detik dengan 4 light state bertingkat, battery pickup + slot cadangan, tombol aksi context-sensitive, satu pintu, kamera orthographic smooth-follow, karakter 3D di atas background 2D (SK3DNode risk validation), vignette 2D + spotlight 3D menyatu. Semua angka tuning wajib dari satu GameConfig. Definition of Done sesuai GDD Bab 20.3."
 

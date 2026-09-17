@@ -190,6 +190,10 @@
   },
   "active": "fcfd9760b93cde9b",
   "lastOpenFiles": [
+    "001-1-unified-3d-world/checklists/requirements.md",
+    "001-1-unified-3d-world/checklists",
+    "001-1-unified-3d-world/spec.md",
+    "001-1-unified-3d-world",
     "ROADMAP.md",
     "017-playtest-submission-lock/checklists/requirements.md",
     "017-playtest-submission-lock/checklists",
@@ -208,9 +212,7 @@
     "010-floor-50-mastery/checklists/requirements.md",
     "010-floor-50-mastery/checklists",
     "009-floor-51-pressure/checklists/requirements.md",
-    "009-floor-51-pressure/checklists",
     "008-floor-52-onboarding/checklists/requirements.md",
-    "008-floor-52-onboarding/checklists",
     "007-lives-checkpoint-fail-state/checklists/requirements.md",
     "006-battery-spawn-system/checklists/requirements.md",
     "005-keys-locked-doors/checklists/requirements.md",
@@ -223,8 +225,6 @@
     "014-haptics/spec.md",
     "013-audio-system/spec.md",
     "012-game-shell-ux/spec.md",
-    "011-narrative-prologue-endings/spec.md",
-    "010-floor-50-mastery/spec.md",
-    "009-floor-51-pressure/spec.md"
+    "011-narrative-prologue-endings/spec.md"
   ]
 }
