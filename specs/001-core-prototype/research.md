@@ -55,8 +55,11 @@ needed to move from spec to design, each with rationale and the alternative cons
 - **Decision**: `CameraController` lerps the `SKCameraNode` position toward the player position
   each frame, then clamps the result to the room's bounds (inset by half the visible viewport) so
   the camera never shows area outside the level. The `SCNCamera` used for the 3D player layer is
-  kept in sync (position/FOV) by deriving its transform from the same 2D camera each frame rather
+  kept in sync (position/orthographic scale) by deriving its transform from the same 2D camera each frame rather
   than maintaining two independently-tuned cameras.
+- **Framing (alignment pass)**: per GDD Ch. 13 the 3D camera is orthographic (`usesOrthographicProjection`),
+  north-facing with a ~45° tilt (`GameConfig.cameraTiltDegrees`) and a fixed `GameConfig.cameraOrthographicScale`;
+  no FOV-based perspective and no dynamic zoom.
 - **Rationale**: FR-012 and FR-013 both fail if the two cameras drift independently — deriving
   one from the other is the only way to guarantee they can't disagree.
 - **Alternatives considered**: Two independently-configured cameras kept in sync by matching

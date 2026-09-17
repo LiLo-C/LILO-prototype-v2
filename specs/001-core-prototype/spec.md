@@ -138,28 +138,33 @@ A player locates the room's single door and opens it using the same action butto
 ### Key Entities
 
 - **Player Character**: The in-scene avatar (Eddie), placeholder-rendered for this phase. Tracks position, movement state, and which battery is currently installed.
-- **Battery**: A pickup with a charge level. Exists either lying in the world at a fixed spawn point, installed in the flashlight, or carried as a spare. The room has exactly one loose battery, which does not respawn once collected.
+- **Battery**: A pickup with a charge level. Exists either lying in the world at a fixed spawn point, installed in the flashlight, or carried as a spare. The room has exactly two loose batteries, neither of which respawns once collected.
 - **Flashlight (Light Source)**: Attached to the player; its visible radius and flicker behavior are driven entirely by the installed battery's charge state, and its charge is additionally mirrored as a persistent HUD bar (FR-017).
 - **Door**: The room's single interactable exit object.
-- **Test Room**: The fixed, single-room environment containing the player spawn point, one battery, and one door — no other rooms or geometry are in scope.
+- **Placeholder Monster Figure**: A static, behavior-less 3D stand-in used only for the performance and lighting checks (FR-019, FR-021). Replaced by the real monster in spec 002.
+- **Test Room**: The fixed, single-room environment containing the player spawn point, two batteries, one door, one placeholder desk, and one placeholder monster figure — no other rooms are in scope.
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
 - **SC-001**: A first-time player can walk and sprint around the test room on the target iPhone hardware and describe the movement as responsive, with no noticeable camera stutter.
-- **SC-002**: The game sustains at least 60 frames per second on an iPhone 17 — the project's baseline target device for this iOS 26 development cycle — during continuous player movement, measured on physical hardware, not a simulator.
+- **SC-002**: The game sustains at least 60 frames per second on an iPhone 17 — the project's baseline target device for this iOS 26 development cycle — during continuous player movement with both the player character and the placeholder monster figure on screen, measured on physical hardware, not a simulator.
 - **SC-003**: In an observation test with at least 2 people outside the development team, each person can correctly identify which of the four light states they're currently seeing without being told what to look for.
 - **SC-004**: A player can let the flashlight drain from 100% to 0% and keep playing afterward without the game crashing or becoming unresponsive.
 - **SC-005**: Every tunable value used in this prototype (speed, drain duration, thresholds) can be changed by editing a single configuration source, with no other file requiring a change.
-- **SC-006**: A new player can complete the full loop — spawn, watch the flashlight begin to drain, recover the spare battery, and exit through the door — in under 2 minutes without being given instructions.
+- **SC-006**: A new player can complete the full loop — spawn, pick up a battery, see the second battery rejected, wait for the light to reach Critical, install the spare, and exit through the door — within 4 minutes without being given instructions. (The install gate means the loop cannot be shorter than about 162 seconds at the default 180-second battery.)
+- **SC-007**: In a joystick test with 2–3 people outside the development team, each asked to walk slowly and then suddenly run, none of them sprints unintentionally while trying to walk slowly (GDD 20.2).
+- **SC-008**: After at least one full uninterrupted 180-second drain walkthrough, the team records a decision on whether 180 seconds feels pressing but not too loose. Any change is made only in the configuration source (GDD 20.2).
+- **SC-009**: When the light is shrunk to Compact Darkness, observers see no 3D character that stays brightly lit in the middle of an otherwise dark screen (GDD 20.2).
 
 ## Assumptions
 
 - Per the project's already-locked technical direction (GDD v2 Ch. 11 and the project constitution's platform constraints), the test room's environment is rendered in 2D and the player character in 3D layered above it; this spec's rendering-related requirements (FR-013, FR-014) describe the observable outcome that approach must produce, not a mandated implementation.
 - Performance validation (SC-002) is measured on physical iPhone hardware — specifically an iPhone 17, the team's standardized baseline device for this iOS 26 cycle — not the iOS Simulator, per the GDD's own Phase 1 test plan.
 - Minimum iOS deployment target is iOS 26, to allow use of newer SpriteKit/Sprite3D and Core Haptics APIs. This resolves the constitution's previously open `TODO(IOS_DEPLOYMENT_TARGET)`.
-- All room geometry, the player character, and the battery/door objects are placeholder primitive shapes for this feature — no final art is in scope.
+- All room geometry, the player character, the placeholder monster figure, and the battery/door objects are placeholder primitive shapes for this feature — no final art is in scope.
+- Haptics are not required in this phase (GDD assigns them to Phase 6, spec 014). Hooks may exist, but no FR here depends on them.
 - No audio assets are in scope for this feature; any sound-trigger points needed later are not required to produce actual sound yet.
 - No monster/AI behavior, no narrative content (prologue/ending), and no multi-room or procedural level design are in scope — this feature is a single fixed test room only.
 - Device orientation is locked to landscape; no portrait-mode behavior is defined or required.
@@ -167,6 +172,6 @@ A player locates the room's single door and opens it using the same action butto
 
 ## Related
 
-- [[Index|Specs Vault Index]]
+- [[Index|Specs Vault Index]] · [[ROADMAP]]
 - [[constitution]] — governing principles this spec must comply with
 - [[LILO-GDD-v2-Production-Lock]] — Ch. 4, 5, 11–13, 15, 17, 20 cover this feature directly

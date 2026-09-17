@@ -1,4 +1,4 @@
-# Specification Quality Checklist: LILO Phase 1 — Core Movement & Light System Prototype
+# Specification Quality Checklist: Keys, Locked Doors & Final Door
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-09-17
@@ -31,10 +31,5 @@
 
 ## Notes
 
-- Rendering pipeline (2D environment / 3D character) is referenced only as an already-locked
-  project-level constraint from the source GDD and constitution, not introduced by this spec —
-  kept in Assumptions rather than as a functional requirement mandating a specific technology.
-- All items pass; no [NEEDS CLARIFICATION] markers were needed because the source GDD (LILO GDD
-  v2 Production Lock) already supplies concrete defaults or explicitly defers specific numeric
-  tuning to on-device iteration during this same phase (captured under Assumptions).
-- GDD alignment pass (2026-09-17): added FR-018–FR-021 and SC-007–SC-009, and revised FR-009, FR-011, FR-012, FR-015, FR-016 and SC-002, SC-006 to match GDD Ch. 4.2, 5.2, 13, 15.3, 20.2, 20.3. All items still pass. `tasks.md` predates this pass — run `/speckit-analyze` then `/speckit-converge`.
+- All items pass. Generic keys and no key HUD are documented assumptions derived from GDD 8.1, 15.1 and 18.2.
+- Items marked incomplete require spec updates before `/speckit-clarify` or `/speckit-plan`
