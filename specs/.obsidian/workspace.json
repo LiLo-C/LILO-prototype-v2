@@ -190,6 +190,12 @@
   },
   "active": "fcfd9760b93cde9b",
   "lastOpenFiles": [
+    "001-1-unified-3d-world/quickstart.md",
+    "001-1-unified-3d-world/contracts/config-additions.md",
+    "001-1-unified-3d-world/contracts",
+    "001-1-unified-3d-world/data-model.md",
+    "001-1-unified-3d-world/research.md",
+    "001-1-unified-3d-world/plan.md",
     "001-1-unified-3d-world/checklists/requirements.md",
     "001-1-unified-3d-world/checklists",
     "001-1-unified-3d-world/spec.md",
@@ -210,7 +216,6 @@
     "011-narrative-prologue-endings/checklists/requirements.md",
     "011-narrative-prologue-endings/checklists",
     "010-floor-50-mastery/checklists/requirements.md",
-    "010-floor-50-mastery/checklists",
     "009-floor-51-pressure/checklists/requirements.md",
     "008-floor-52-onboarding/checklists/requirements.md",
     "007-lives-checkpoint-fail-state/checklists/requirements.md",
@@ -220,11 +225,6 @@
     "003-hiding-under-desk/checklists/requirements.md",
     "002-monster-ai-noise/checklists/requirements.md",
     "017-playtest-submission-lock/spec.md",
-    "016-environmental-storytelling/spec.md",
-    "015-art-lighting-pass/spec.md",
-    "014-haptics/spec.md",
-    "013-audio-system/spec.md",
-    "012-game-shell-ux/spec.md",
-    "011-narrative-prologue-endings/spec.md"
+    "016-environmental-storytelling/spec.md"
   ]
 }

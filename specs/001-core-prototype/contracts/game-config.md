@@ -29,6 +29,14 @@ same phase (spec Assumptions) — the *key* must still exist and be read from `G
 | `actionButtonCenterOffset` | point offset from bottom-right safe area | `TBD` | GDD 15.3 *(added)* |
 | `actionButtonTouchRadius` | `Double` (points) | `TBD` | GDD 15.3; may exceed the drawn size *(added)* |
 
+## Extensions
+
+- **001-1** (Unified 3D World & Feel Pass) adds light-profile easing/flicker keys, camera tilt/
+  scale/distance, shadow settings, interactable highlight color/intensity, wall height, the frame
+  delta clamp, pickup/door animation durations, and the floating-joystick control zone — see
+  [`001-1-unified-3d-world/contracts/config-additions.md`](../../001-1-unified-3d-world/contracts/config-additions.md)
+  for the full table. Same single `GameConfig.swift` source; no second config file was created.
+
 ## Non-negotiable shape rules
 
 - One source file (`Game/GameConfig.swift`), no duplicate constants elsewhere (FR-015).
