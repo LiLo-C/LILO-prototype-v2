@@ -10,6 +10,7 @@ already **specified** (`spec.md` + `checklists/requirements.md`). An implementin
 | # | Spec | GDD phase | Proposed owner (GDD 19.1) | Must-have (GDD 18.1) | Cut switch (GDD 18.3) | Open clarification |
 |---|---|---|---|---|---|---|
 | 001 | [[001-core-prototype/spec\|Core Movement & Light Prototype]] | Fase 1 | Calzy, Eca | movement, sprint, flashlight, interaction, battery system | — | — (GDD alignment pass added; run analyze + converge) |
+| 001-1 | [[001-1-unified-3d-world/spec\|Unified 3D World & Feel Pass]] | Fase 1 | Calzy, Eca | flashlight (feel), movement (feel) | shadows off (`FR-022`) | — (clarified 2026-09-17) |
 | 002 | [[002-monster-ai-noise/spec\|Monster AI & Noise Detection]] | Fase 2 | Radit | 1 monster, 5 states; noise detection | — | — |
 | 003 | [[003-hiding-under-desk/spec\|Hiding Under Desks]] | Fase 2 | Radit, Eca | limited hiding | **#1** `hidingEnabled` | — |
 | 004 | [[004-floor-level-framework/spec\|Floor & Level Framework]] | Fase 3 prerequisite | Calzy, Fathia | 3 floors, progression | #3 `floorCount` | battery carry-over on descend |
@@ -32,7 +33,7 @@ already **specified** (`spec.md` + `checklists/requirements.md`). An implementin
 ## 2. Build order
 
 ```text
-Fase 1  001 ──(analyze + converge the alignment delta)
+Fase 1  001 ──(analyze + converge the alignment delta) ──► 001-1 (unified 3D world)
           │
 Fase 2  002 ─────────────► 003
           │
@@ -64,7 +65,7 @@ Names used in several specs. The first spec to implement one owns its shape; lat
 |---|---|---|
 | Single configuration source (all GDD Ch. 17 keys) | 001 FR-015, `001/contracts/game-config.md` | every spec adds keys here, never a second config |
 | Action button + nearest-object priority | `001/contracts/action-button-states.md` | 003 (Hide/Leave), 005 (Pick up key / Unlock / Final Door) |
-| Interactable highlight | 001 FR-018 | 003, 005, 006; final look 015 |
+| Interactable highlight | 001 FR-018, extended by 001-1 FR-013 (drawn around the object, two levels) | 003, 005, 006; final look 015 |
 | Floor definition + anchors | 004 FR-002 | 002, 003, 005, 006, 008–010, 016 |
 | Noise event / "player caught" outcome | 002 FR-010, FR-012 | 003, 005, 006, 007 |
 | Floor reset operation | 007 FR-005, FR-007 | 002, 003, 005, 006 participate |
@@ -98,9 +99,9 @@ Names used in several specs. The first spec to implement one owns its shape; lat
 | 9 Lives, checkpoint, fail | 007 |
 | 10.1–10.2, 10.4 Eddie, prologue, endings | 011 |
 | 10.3 Foreshadowing | 016 (+ 013 sounds) |
-| 11 Visual pipeline | 001 (risk validation), 015 (final + fallback) |
-| 12 Lighting | 001, 015 |
-| 13 Camera | 001, 004 |
+| 11 Visual pipeline | 001 (risk validation), 001-1 (amends 11.1: unified 3D world), 015 (final + fallback) |
+| 12 Lighting | 001, 001-1 (amends 12: one real light + shadows), 015 |
+| 13 Camera | 001, 001-1, 004 |
 | 14 Audio | 013 |
 | 15.1 Layout / HUD | 001, 012 |
 | 15.2 Haptics | 014 |
